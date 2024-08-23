@@ -2,75 +2,75 @@ import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-import 'package:myapp/app/data/kategori_model.dart';
+import 'package:myapp/app/data/user_model.dart';
 import 'package:myapp/app/utils/api.dart';
 
-class KategoriController extends GetxController {
-  var KategoriList = <Data>[].obs;
+class UserController extends GetxController {
+  var UserList = <DataUser>[].obs;
   var isLoading = true.obs;
 
-  final String baseUrl = '${BaseUrl.api}/kategori';
+  final String baseUrl = '${BaseUrl.api}/user';
 
   @override
   void onInit() {
-    fetchKategories();
+    fetchUser();
     super.onInit();
   }
 
-  void fetchKategories() async {
+  void fetchUser() async {
     try {
       isLoading(true);
       final response = await http.get(Uri.parse(baseUrl));
       if (response.statusCode == 200) {
         var jsonResponse = json.decode(response.body);
-        var kategori = Kategori.fromJson(jsonResponse);
-        KategoriList.value = kategori.data!;
+        var user = User.fromJson(jsonResponse);
+        UserList.value = user.data!;
       } else {
-        Get.snackbar('Error', 'Failed to load Kategori');
+        Get.snackbar('Error', 'Failed to load User');
       }
     } catch (e) {
-      Get.snackbar('Error', 'Failed to load Kategori: $e');
+      Get.snackbar('Error', 'Failed to load User: $e');
     } finally {
       isLoading(false);
     }
   }
 
   // Add Kategori
-  Future<void> addKategori(Data newKategori) async {
+  Future<void> addUser(DataUser newUser) async {
     try {
       isLoading(true);
       final response = await http.post(
         Uri.parse(baseUrl),
         headers: {'Content-Type': 'application/json'},
-        body: json.encode(newKategori.toJson()),
+        body: json.encode(newUser.toJson()),
       );
       if (response.statusCode == 201) { // Status code 201 indicates successful creation
-        fetchKategories();
+        fetchUser();
         Get.back();
-        Get.snackbar('Success', 'Kategori added successfully');
+        Get.snackbar('Success', 'User added successfully');
       } else {
-        Get.snackbar('Error', 'Failed to add Kategori: ${response.reasonPhrase}');
+        Get.snackbar('Error', 'Failed to add User: ${response.reasonPhrase}');
       }
     } catch (e) {
-      Get.snackbar('Error', 'Failed to add Kategori: $e');
+      Get.snackbar('Error', 'Failed to add User: $e');
     } finally {
       isLoading(false);
     }
   }
 
   // Update Kategori
-Future<void> updateKategori(int id, Data updatedKategori) async {
+Future<void> updateUser(int id, DataUser updatedUser) async {
   try {
     isLoading(true);
     final response = await http.put(
       Uri.parse('$baseUrl/$id'),
       headers: {'Content-Type': 'application/json'},
-      body: json.encode(updatedKategori.toJson()),
+      body: json.encode(updatedUser.toJson()),
     );
     
     if (response.statusCode == 200 || response.statusCode == 204) {
       // Status code 200 or 204 indicates success
-      fetchKategories();
+      fetchUser();
       Get.back();
       Get.snackbar('Success', 'Kategori updated successfully');
     } else {
@@ -89,18 +89,18 @@ Future<void> updateKategori(int id, Data updatedKategori) async {
 
 
   // Delete Kategori
-  Future<void> deleteKategori(int id) async {
+  Future<void> deleteUser(int id) async {
     try {
       isLoading(true);
       final response = await http.delete(Uri.parse('$baseUrl/$id'));
       if (response.statusCode == 200) {
-        fetchKategories();
-        Get.snackbar('Success', 'Kategori deleted successfully');
+        fetchUser();
+        Get.snackbar('Success', 'User deleted successfully');
       } else {
-        Get.snackbar('Error', 'Failed to delete Kategori: ${response.reasonPhrase}');
+        Get.snackbar('Error', 'Failed to delete User: ${response.reasonPhrase}');
       }
     } catch (e) {
-      Get.snackbar('Error', 'Failed to delete Kategori: $e');
+      Get.snackbar('Error', 'Failed to delete User: $e');
     } finally {
       isLoading(false);
     }

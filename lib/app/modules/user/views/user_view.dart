@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:myapp/app/modules/user/controllers/user_controller.dart';
 
-import '../controllers/kategori_controller.dart';
 
-class KategoriView extends GetView<KategoriController> {
-  KategoriView({Key? key}) : super(key: key);
-  final KategoriController controller = Get.put(KategoriController());
+class UserView extends GetView<UserController> {
+  UserView({Key? key}) : super(key: key);
+  final UserController controller = Get.put(UserController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'Kategori',
+          'User',
           style: TextStyle(
             fontSize: 24,
             fontWeight: FontWeight.bold,
@@ -21,7 +21,7 @@ class KategoriView extends GetView<KategoriController> {
         actions: [
           IconButton(
             icon: Icon(Icons.add, color: Colors.white, size: 20),
-            onPressed: () => Get.toNamed('/kategori/create'),
+            onPressed: () => Get.toNamed('/user/create'),
           ),
         ],
         elevation: 0,
@@ -32,9 +32,9 @@ class KategoriView extends GetView<KategoriController> {
           return Center(child: CircularProgressIndicator());
         }
         return ListView.builder(
-          itemCount: controller.KategoriList.length,
+          itemCount: controller.UserList.length,
           itemBuilder: (context, index) {
-            final item = controller.KategoriList[index];
+            final item = controller.UserList[index];
             return Card(
               margin: EdgeInsets.symmetric(vertical: 10),
               shape: RoundedRectangleBorder(
@@ -48,7 +48,7 @@ class KategoriView extends GetView<KategoriController> {
                   horizontal: 20,
                 ),
                 title: Text(
-                  item.namaKategori ?? 'No Name',
+                  item.name ?? 'No Name',
                   style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
@@ -56,10 +56,10 @@ class KategoriView extends GetView<KategoriController> {
                   ),
                 ),
                 subtitle: Text(
-                  item.slug ?? '',
+                  item.email ?? '',
                   style: TextStyle(
-                  fontSize: 14,
-                  color: Colors.grey[600],
+                  fontSize: 18,
+                  color: Colors.black,
                   ),
                 ),
                 trailing: Row(
@@ -67,15 +67,15 @@ class KategoriView extends GetView<KategoriController> {
                   children: [
                     IconButton(
                       icon: Icon(Icons.edit, color: Colors.deepPurpleAccent),
-                      onPressed: () => Get.toNamed('/kategori/edit', arguments: item),
+                      onPressed: () => Get.toNamed('/user/edit', arguments: item),
                     ),
                     IconButton(
                       icon: Icon(Icons.delete, color: Colors.red),
-                      onPressed: () => controller.deleteKategori(item.id!),
+                      onPressed: () => controller.deleteUser(item.id!),
                     ),
                   ]
                   ),
-                  onTap: () => Get.toNamed('/kategori/show', arguments: item,
+                  onTap: () => Get.toNamed('/user/show', arguments: item,
                 ),
               ),
             );

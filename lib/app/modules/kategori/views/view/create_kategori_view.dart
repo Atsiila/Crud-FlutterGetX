@@ -1,18 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../../data/kategori_model.dart';
-import '../controllers/kategori_controller.dart';
+import '../../../../data/kategori_model.dart';
+import '../../controllers/kategori_controller.dart';
 
-class EditKategoriView extends StatelessWidget {
+class CreateKategoriView extends StatelessWidget {
   final KategoriController controller = Get.find();
 
   final TextEditingController namaKategoriController = TextEditingController();
+  final TextEditingController slugController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-    final Data kategori = Get.arguments;
-    namaKategoriController.text = kategori.namaKategori!;
-
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -31,7 +29,7 @@ class EditKategoriView extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Update Kategori',
+              'Tambah Kategori',
               style: TextStyle(
                 fontSize: 22,
                 fontWeight: FontWeight.bold,
@@ -57,11 +55,11 @@ class EditKategoriView extends StatelessWidget {
             Center(
               child: ElevatedButton(
                 onPressed: () {
-                  final updatedKategori = Data(
-                    id: kategori.id,
+                  final newCategory = Data(
                     namaKategori: namaKategoriController.text,
+                    slug: slugController.text,
                   );
-                  controller.updateKategori(kategori.id!, updatedKategori);
+                  controller.addKategori(newCategory);
                   Get.back();
                 },
                 style: ElevatedButton.styleFrom(
@@ -72,7 +70,7 @@ class EditKategoriView extends StatelessWidget {
                   ),
                 ),
                 child: Text(
-                  'Update',
+                  'Save',
                   style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
